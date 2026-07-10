@@ -32,6 +32,7 @@ export default function HomeClient({ levels }) {
 
   const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || '사용자';
   const avatarUrl = user?.user_metadata?.avatar_url || user?.user_metadata?.picture || null;
+  const isKakaoUser = user?.app_metadata?.provider === 'kakao';
 
   const handleGoogleLogin = async () => {
     const supabase = createClient();
@@ -49,6 +50,7 @@ export default function HomeClient({ levels }) {
       provider: 'kakao',
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
+        scopes: 'profile_nickname profile_image',
       },
     });
   };
@@ -76,7 +78,9 @@ export default function HomeClient({ levels }) {
               avatarUrl ? (
                 <img src={avatarUrl} alt={displayName} className={styles.avatarImg} />
               ) : (
-                <span className={styles.avatarFallback}>{displayName.charAt(0).toUpperCase()}</span>
+                <span className={`${styles.avatarFallback} ${isKakaoUser ? styles.avatarFallbackKakao : ''}`}>
+                  {displayName.charAt(0).toUpperCase()}
+                </span>
               )
             ) : (
               <Image src="/icons/account_logo.png" alt="계정" width={25} height={25} />
@@ -256,7 +260,9 @@ export default function HomeClient({ levels }) {
               {avatarUrl ? (
                 <img src={avatarUrl} alt={displayName} className={styles.accountAvatar} />
               ) : (
-                <span className={styles.accountAvatarFallback}>{displayName.charAt(0).toUpperCase()}</span>
+                <span className={`${styles.accountAvatarFallback} ${isKakaoUser ? styles.avatarFallbackKakao : ''}`}>
+                  {displayName.charAt(0).toUpperCase()}
+                </span>
               )}
               <div>
                 <p className={styles.accountName}>{displayName}</p>

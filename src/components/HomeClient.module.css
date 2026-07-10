@@ -327,6 +327,12 @@
   color: var(--color-accent-text);
 }
 
+/* 카카오 로그인 사용자의 프로필 사진 미동의 시 대체 아이콘 (avatarFallback/accountAvatarFallback보다 뒤에 위치해 배경색을 덮어씀) */
+.avatarFallbackKakao {
+  background: #fee500;
+  color: #191600;
+}
+
 /* ── 애니메이션 ── */
 @keyframes fadeIn {
   from { opacity: 0; }
